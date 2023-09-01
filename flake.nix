@@ -29,10 +29,13 @@
         fenixPkgs = fenix.packages.${system};
         pkgs = nixpkgs.legacyPackages.${system};
 
-        toolchain = fenixPkgs.stable.withComponents [
-          "cargo"
-          "clippy"
-          "rustc"
+        toolchain = fenixPkgs.combine [
+          fenixPkgs.stable.cargo
+          fenixPkgs.stable.clippy
+          fenixPkgs.stable.rustc
+          fenixPkgs.stable.rustfmt
+          fenixPkgs.stable.rust-std
+          fenixPkgs.targets.x86_64-unknown-linux-musl.stable.rust-std
         ];
         craneLib = crane.lib.${system}.overrideToolchain toolchain;
       in
@@ -60,12 +63,7 @@
 
         devShells.default = pkgs.mkShell {
           packages = [
-            (fenixPkgs.complete.withComponents [
-              "cargo"
-              "clippy"
-              "rustc"
-              "rustfmt"
-            ])
+            toolchain
             fenixPkgs.rust-analyzer
             pkgs.cargo-expand
             pkgs.cargo-bloat
