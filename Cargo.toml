@@ -1,0 +1,29 @@
+[package]
+name = "guoql"
+version = "0.1.0"
+edition = "2021"
+authors = ["忘忧北萱草 <wybxc@qq.com>"]
+description = "锅 bot，但是 GraphQL。"
+license = "Apache-2.0"
+repository = "https://github.com/Wybxc/guoql"
+rust-version = "1.70.0"
+readme = "README.md"
+exclude = ["flake.nix", "flake.lock", ".github/"]
+
+[dependencies]
+bson = "2.7.0"
+clap = { version = "4.4.2", features = ["derive"] }
+env_logger = { version = "0.10.0", default-features = false, features = [
+    "color",
+    "auto-color",
+    "humantime",
+] }
+juniper = { version = "0.15.11", default-features = false, features = [] }
+juniper_warp = "0.7.0"
+log = "0.4.20"
+serde = "1.0.188"
+tokio = { version = "1.32.0", features = ["macros", "rt-multi-thread"] }
+warp = { version = "0.3.5", default-features = false }
+
+[profile.release]
+lto = true
